@@ -54,7 +54,8 @@ def paraphrase(data):
         pos = token.part_of_speech.split(',')[0]
         if pos == '名詞':
             try:
-                text += get_synonims(model, token.base_form)
+                
+                text += ("<span style='color:red'>" + get_synonims(model, token.base_form) + '</span>')
             except KeyError:
                 text += token.base_form
         else:

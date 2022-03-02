@@ -1,33 +1,48 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
+
+
 <html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>HTML</title>
+    <title>ParaPhrase</title>
     <link rel='stylesheet' type='text/css' href="{% static 'style.css' %}"/>
     <script type="text/javascript" src="{% static 'script.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
 
   <body>
-      <span>文字を入力した後にボタンを押してください</span>
-      <br>
-      <input type="text" size="50" id="input_form">
-      <button type="button" onclick="clickBtn()">送信</button>
+    <!----- header----->
+    <header>
+      <h1 class="headline">
+          <a>ParaPhrase</a>
+      </h1>
+    </header>
+    <!----- /header ----->
+    <textarea rows="10" cols="60" id="input_form">吾輩は猫である。 名前はまだ無い。 どこで生れたか頓（とん）と見當がつかぬ。 何でも薄暗いじめじめした所でニヤーニヤー泣いて居た事丈は記憶して居る。</textarea>
+      
+      <button type="button" onclick="clickBtn()">変換</button>
 
-      <br>
-      <span id="text"></span>
+      
+
+
+      <span id="waiting"></span>
+      <br/>
+      <textarea rows="10" cols="60" id="output_form">結果がここに表示されます</textarea>
+
+      
 
       <script>
         function clickBtn() {
+          document.getElementById("waiting").textContent = "変換中...";
           var txt = document.getElementById("input_form").value;
 
           $.ajax({
             url: "{% url 'app:call_paraphrase' %}",
             method: 'GET',
             data: {"input_data": txt},
-            dataType: "text",
+            dataType: "html",
             contentType: "application/json",
             beforeSend: function(xhr, settings) {
               if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
@@ -39,7 +54,9 @@
             }
           })
           .done(function(data) {
-            document.getElementById("text").textContent = data;
+            
+            document.getElementById("waiting").textContent = "";
+            document.getElementById("output_form").innerHTML = data;
             console.log("Success"); 
           });
 

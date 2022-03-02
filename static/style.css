@@ -1,0 +1,14 @@
+/* このcss 反映されない(原因わからない) */
+
+/* 全体の設定 */
+* {
+    margin:0; padding:0;
+    background-color: blueviolet;
+  }
+
+
+/* サイト全体のフォント指定 */
+body {
+    font-family: "Noto Sans JP", sans-serif;
+    font-weight: 400;
+}
